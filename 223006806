@@ -1,0 +1,283 @@
+Name: bonheur IRAGUHA
+Reg: 223006806
+
+q1:
+import java.util.Scanner;
+
+public class EvenOddChecker {
+    public static void main(String[] args) {
+        // Create a Scanner object to read input from the user
+        Scanner scanner = new Scanner(System.in);
+
+        // Prompt the user to enter a number
+        System.out.print("Enter a number: ");
+        int number = scanner.nextInt();
+
+        // Check if the number is even or odd using if-else
+        if (number % 2 == 0) {
+            System.out.println(number + " is even.");
+        } else {
+            System.out.println(number + " is odd.");
+        }
+
+        // Close the scanner
+        scanner.close();
+    }
+}
+
+
+Q2:
+import java.util.Scanner;
+
+public class GradeChecker {
+    public static void main(String[] args) {
+        // Create a Scanner object to read input from the user
+        Scanner scanner = new Scanner(System.in);
+
+        // Prompt the user to enter a grade
+        System.out.print("Enter your grade (A, B, C, D, F): ");
+        char grade = scanner.next().charAt(0);
+
+        // Use a switch statement to determine the message based on the grade
+        switch (grade) {
+            case 'A':
+            case 'a':
+                System.out.println("Excellent! Keep up the good work.");
+                break;
+            case 'B':
+            case 'b':
+                System.out.println("Good job! You can still improve.");
+                break;
+            case 'C':
+            case 'c':
+                System.out.println("Not bad, but there is room for improvement.");
+                break;
+            case 'D':
+            case 'd':
+                System.out.println("You passed, but try to work harder.");
+                break;
+            case 'F':
+            case 'f':
+                System.out.println("Unfortunately, you failed. Better luck next time.");
+                break;
+            default:
+                System.out.println("Invalid grade. Please enter a valid grade (A, B, C, D, F).");
+                break;
+        }
+
+        // Close the scanner
+        scanner.close();
+    }
+}
+
+
+3:
+import java.util.Scanner;
+
+public class LeapYearChecker {
+    public static void main(String[] args) {
+        // Create a Scanner object to read input from the user
+        Scanner scanner = new Scanner(System.in);
+
+        // Prompt the user to enter a year
+        System.out.print("Enter a year: ");
+        int year = scanner.nextInt();
+
+        // Check if the year is a leap year using conditional statements
+        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+            System.out.println(year + " is a leap year.");
+        } else {
+            System.out.println(year + " is not a leap year.");
+        }
+
+        // Close the scanner
+        scanner.close();
+    }
+}
+
+
+Q4:
+import java.util.Scanner;
+
+public class LargestNumber {
+    public static void main(String[] args) {
+        // Create a Scanner object to read input from the user
+        Scanner scanner = new Scanner(System.in);
+
+        // Prompt the user to enter three numbers
+        System.out.print("Enter the first number: ");
+        int num1 = scanner.nextInt();
+        System.out.print("Enter the second number: ");
+        int num2 = scanner.nextInt();
+        System.out.print("Enter the third number: ");
+        int num3 = scanner.nextInt();
+
+        // Determine the largest number using if-else-if
+        if (num1 > num2 && num1 > num3) {
+            System.out.println(num1 + " is the largest number.");
+        } else if (num2 > num1 && num2 > num3) {
+            System.out.println(num2 + " is the largest number.");
+        } else if (num3 > num1 && num3 > num2) {
+            System.out.println(num3 + " is the largest number.");
+        } else {
+            System.out.println("There is a tie between the numbers.");
+        }
+
+        // Close the scanner
+        scanner.close();
+    }
+}
+
+
+Q5:
+import java.util.Scanner;
+
+public class NumberChecker {
+    public static void main(String[] args) {
+        // Create a Scanner object to read input from the user
+        Scanner scanner = new Scanner(System.in);
+
+        // Prompt the user to enter a number
+        System.out.print("Enter a number: ");
+        double number = scanner.nextDouble();
+
+        // Check if the number is positive, negative, or zero
+        if (number > 0) {
+            System.out.println(number + " is a positive number.");
+        } else if (number < 0) {
+            System.out.println(number + " is a negative number.");
+        } else {
+            System.out.println("The number is zero.");
+        }
+
+        // Close the scanner
+        scanner.close();
+    }
+}
+
+
+Q6:
+public class NumberTriangle {
+    public static void main(String[] args) {
+        // Outer loop for each row
+        for (int i = 1; i <= 7; i++) {
+            // Inner loop for printing numbers in each row
+            for (int j = 1; j <= i; j++) {
+                System.out.print(j + " ");
+            }
+            // Move to the next line after each row
+            System.out.println();
+        }
+    }
+}
+Q7:
+import java.util.Scanner;
+
+public class DiamondShape {
+    public static void main(String[] args) {
+        // Create a Scanner object to read input from the user
+        Scanner scanner = new Scanner(System.in);
+
+        // Prompt the user to enter the number of rows for the upper half of the diamond
+        System.out.print("Enter the number of rows for the diamond: ");
+        int rows = scanner.nextInt();
+
+        // Print the upper half of the diamond
+        for (int i = 1; i <= rows; i++) {
+            // Print leading spaces
+            for (int j = i; j < rows; j++) {
+                System.out.print(" ");
+            }
+            // Print stars
+            for (int k = 1; k <= (2 * i - 1); k++) {
+                System.out.print("*");
+            }
+            // Move to the next line after each row
+            System.out.println();
+        }
+
+        // Print the lower half of the diamond
+        for (int i = rows - 1; i >= 1; i--) {
+            // Print leading spaces
+            for (int j = rows; j > i; j--) {
+                System.out.print(" ");
+            }
+            // Print stars
+            for (int k = 1; k <= (2 * i - 1); k++) {
+                System.out.print("*");
+            }
+            // Move to the next line after each row
+            System.out.println();
+        }
+
+        // Close the scanner
+        scanner.close();
+    }
+}
+
+Q8:
+public class ArrayAverage {
+    public static void main(String[] args) {
+        // Initialize the array with given elements
+        int[] numbers = {10, 12, 34, 23, 56, 78};
+
+        // Variable to store the sum of the array elements
+        int sum = 0;
+
+        // Loop through the array to calculate the sum
+        for (int i = 0; i < numbers.length; i++) {
+            sum += numbers[i];
+        }
+
+        // Calculate the average
+        double average = (double) sum / numbers.length;
+
+        // Print the sum and average
+        System.out.println("Sum of array elements: " + sum);
+        System.out.println("Average of array elements: " + average);
+    }
+}
+
+Q9:
+public class ReverseArray {
+    public static void main(String[] args) {
+        // Initialize the array with the given elements
+        int[] numbers = {3, 4, 6, 1, 9, 7, 5, 8};
+
+        // Print the original array
+        System.out.print("Original Array: ");
+        for (int i = 0; i < numbers.length; i++) {
+            System.out.print(numbers[i] + " ");
+        }
+        System.out.println();
+
+        // Reverse the array
+        System.out.print("Reversed Array: ");
+        for (int i = numbers.length - 1; i >= 0; i--) {
+            System.out.print(numbers[i] + " ");
+        }
+    }
+}
+
+Q10:
+public class LargestElement {
+    public static void main(String[] args) {
+        // Initialize the array with the given elements
+        int[] numbers = {34, 23, 12, 45, 67, 89, 234, 26, 10, 30, 43};
+
+        // Assume the first element is the largest
+        int largest = numbers[0];
+
+        // Loop through the array to find the largest element
+        for (int i = 1; i < numbers.length; i++) {
+            if (numbers[i] > largest) {
+                largest = numbers[i]; // Update the largest element
+            }
+        }
+
+        // Print the largest element
+        System.out.println("The largest element in the array is: " + largest);
+    }
+}
+
+
