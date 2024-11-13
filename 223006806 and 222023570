@@ -1,0 +1,263 @@
+Question1:
+
+public class Loan {
+    // Variables for loan details
+    private double monthlyPayment;
+    private int numberOfYears;
+    private double totalAmount;
+
+    // Constructor using the "this" keyword to initialize variables
+    public Loan(double monthlyPayment, int numberOfYears, double totalAmount) {
+        this.monthlyPayment = monthlyPayment;
+        this.numberOfYears = numberOfYears;
+        this.totalAmount = totalAmount;
+    }
+
+    // Setter methods
+    public void setMonthlyPayment(double monthlyPayment) {
+        this.monthlyPayment = monthlyPayment;
+    }
+
+    public void setNumberOfYears(int numberOfYears) {
+        this.numberOfYears = numberOfYears;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    // Getter methods
+    public double getMonthlyPayment() {
+        return monthlyPayment;
+    }
+
+    public int getNumberOfYears() {
+        return numberOfYears;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    // Method to calculate the monthly payment based on loan parameters
+    public void calculateMonthlyPayment(double principal, double annualInterestRate) {
+        double monthlyInterestRate = annualInterestRate / 12 / 100;
+        int totalMonths = this.numberOfYears * 12;
+
+        // Calculating monthly payment using the formula
+        this.monthlyPayment = (principal * monthlyInterestRate) / 
+                              (1 - Math.pow(1 + monthlyInterestRate, -totalMonths));
+
+        // Calculate the total amount (monthly payment * total number of payments)
+        this.totalAmount = this.monthlyPayment * totalMonths;
+    }
+
+    public static void main(String[] args) {
+        // Example usage
+        double principal = 10000; // Loan amount in currency units
+        double annualInterestRate = 5; // Annual interest rate in percentage
+        int years = 2; // Loan duration in years
+
+        // Create a Loan object with initial values
+        Loan myLoan = new Loan(0, years, 0);
+
+        // Calculate the monthly payment and total amount
+        myLoan.calculateMonthlyPayment(principal, annualInterestRate);
+
+        // Output the results
+        System.out.println("Monthly Payment: " + myLoan.getMonthlyPayment());
+        System.out.println("Total Amount to Pay: " + myLoan.getTotalAmount());
+    }
+}
+
+
+Qeastion2:
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
+
+// Model class for Student
+class Student {
+    private int id;
+    private String name;
+    private int age;
+    private String course;
+    private String grade;
+
+    public Student(int id, String name, int age, String course, String grade) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.course = course;
+        this.grade = grade;
+    }
+
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    public String getCourse() { return course; }
+    public String getGrade() { return grade; }
+}
+
+// Database connection class
+class DatabaseConnection {
+    private static final String URL = "jdbc:mysql://localhost:3306/school"; // Update with your database URL
+    private static final String USER = "root";                              // Update with your username
+    private static final String PASSWORD = "your_password";                 // Update with your password
+    private Connection conn;
+
+    public DatabaseConnection() throws SQLException {
+        conn = DriverManager.getConnection(URL, USER, PASSWORD);
+    }
+
+    // Method to insert student into the database
+    public void insertStudent(Student student) throws SQLException {
+        String query = "INSERT INTO students (name, age, course, grade) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, student.getName());
+            stmt.setInt(2, student.getAge());
+            stmt.setString(3, student.getCourse());
+            stmt.setString(4, student.getGrade());
+            stmt.executeUpdate();
+        }
+    }
+
+    // Method to find a student by name
+    public Student findStudent(String keyword) throws SQLException {
+        String query = "SELECT * FROM students WHERE name LIKE ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, "%" + keyword + "%");
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Student(rs.getInt("id"), rs.getString("name"), rs.getInt("age"),
+                                   rs.getString("course"), rs.getString("grade"));
+            }
+        }
+        return null;
+    }
+}
+
+// Main application class
+public class StudentApp extends JFrame {
+    private JTextField nameField, ageField, courseField, gradeField, searchField;
+    private JTextArea displayArea;
+    private DatabaseConnection dbConnection;
+
+    public StudentApp() {
+        // Database connection
+        try {
+            dbConnection = new DatabaseConnection();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Database connection failed");
+            return;
+        }
+
+        // Setting up the JFrame
+        setTitle("Student Record System");
+        setSize(400, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        // Input Panel
+        JPanel inputPanel = new JPanel();
+        inputPanel.setLayout(new GridLayout(5, 2));
+        inputPanel.add(new JLabel("Name:"));
+        nameField = new JTextField();
+        inputPanel.add(nameField);
+        inputPanel.add(new JLabel("Age:"));
+        ageField = new JTextField();
+        inputPanel.add(ageField);
+        inputPanel.add(new JLabel("Course:"));
+        courseField = new JTextField();
+        inputPanel.add(courseField);
+        inputPanel.add(new JLabel("Grade:"));
+        gradeField = new JTextField();
+        inputPanel.add(gradeField);
+
+        // Buttons
+        JButton addButton = new JButton("Add Student");
+        JButton searchButton = new JButton("Search by Name");
+        inputPanel.add(addButton);
+        inputPanel.add(searchButton);
+
+        // Search field and display area
+        searchField = new JTextField();
+        displayArea = new JTextArea();
+        displayArea.setEditable(false);
+
+        // Adding components
+        add(inputPanel, BorderLayout.NORTH);
+        add(new JLabel("Search by Name:"), BorderLayout.CENTER);
+        add(searchField, BorderLayout.CENTER);
+        add(displayArea, BorderLayout.SOUTH);
+
+        // Button listeners
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addStudent();
+            }
+        });
+
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchStudent();
+            }
+        });
+    }
+
+    // Method to add a student to the database
+    private void addStudent() {
+        String name = nameField.getText();
+        int age = Integer.parseInt(ageField.getText());
+        String course = courseField.getText();
+        String grade = gradeField.getText();
+
+        Student student = new Student(0, name, age, course, grade);
+        try {
+            dbConnection.insertStudent(student);
+            JOptionPane.showMessageDialog(this, "Student added successfully!");
+            clearFields();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Failed to add student.");
+        }
+    }
+
+    // Method to search for a student by name
+    private void searchStudent() {
+        String keyword = searchField.getText();
+        try {
+            Student student = dbConnection.findStudent(keyword);
+            if (student != null) {
+                displayArea.setText("ID: " + student.getId() +
+                                    "\nName: " + student.getName() +
+                                    "\nAge: " + student.getAge() +
+                                    "\nCourse: " + student.getCourse() +
+                                    "\nGrade: " + student.getGrade());
+            } else {
+                displayArea.setText("Student not found.");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Search failed.");
+        }
+    }
+
+    // Method to clear input fields
+    private void clearFields() {
+        nameField.setText("");
+        ageField.setText("");
+        courseField.setText("");
+        gradeField.setText("");
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            StudentApp app = new StudentApp();
+            app.setVisible(true);
+        });
+    }
+}
